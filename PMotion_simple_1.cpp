@@ -24,7 +24,7 @@ int main() {
     double flight_time = (2 * v_y0) / g;  // Total flight time
     double time_step = flight_time / steps;  // Time increment for each step
 
-    std::ofstream output_file("Pmotion_output.txt");
+    std::ofstream output_file("Pmotion_output_cpp.txt");
 
     double x = 0.0;  // Initial horizontal position
     double y = 0.0;  // Initial vertical position
@@ -33,7 +33,7 @@ int main() {
     double t = 0.0; //time variable
 
     for(int i = 0; i <= steps; i++) {
-        if(y < 0) {
+        if(y < 0) { //make sure the projectile doesn't go below ground level
             break;
         }
 
@@ -42,7 +42,8 @@ int main() {
         v_y = v_y - g*time_step;
         t += time_step;
 
-        output_file << t << " " << x << " " << y << " " << v_x0 << " " << v_y << "\n";
+        output_file << t << " " << x << " " << y << " " << v_x0 << " " << v_y << "\n"; //output to text file
+        
         if(y > y_max) { //update maximum height if current height is greater
             y_max = y;
         }
