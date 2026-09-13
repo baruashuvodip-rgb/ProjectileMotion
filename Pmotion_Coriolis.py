@@ -21,9 +21,11 @@ def coriolis(v_x, v_y, v_z, phi):
 #define function for calculating instantaneous acceleration with drag
 def acceleration(v_x, v_y, v_z, C, m):
     a_coriolis_x, a_coriolis_y, a_coriolis_z = coriolis(v_x, v_y, v_z, phi)
-    a_x = -C * v_x * math.hypot(v_x, v_y) / m + a_coriolis_x
-    a_y = -g - C * v_y * math.hypot(v_x, v_y) / m + a_coriolis_y
-    a_z = a_coriolis_z
+    magnitude = math.sqrt(v_x * v_x + v_y * v_y + v_z * v_z)
+    drag_factor = C * magnitude / m
+    a_x = - v_x * drag_factor + a_coriolis_x
+    a_y = -g - v_y * drag_factor + a_coriolis_y
+    a_z = - v_z * drag_factor + a_coriolis_z
 
     return a_x, a_y, a_z
 
