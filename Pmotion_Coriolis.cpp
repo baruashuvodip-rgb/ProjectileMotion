@@ -70,7 +70,7 @@ int main() {
     float phi_radians = phi * M_PI / 180.0; //convert latitude to radians
     
     //calculate angular velocity components - no component in z direction
-    float v_angular_x = v_angular * std::cos(phi_radians);
+    float v_angular_x = - v_angular * std::cos(phi_radians);
     float v_angular_y = v_angular * std::sin(phi_radians);
 
     //boolean activation condition

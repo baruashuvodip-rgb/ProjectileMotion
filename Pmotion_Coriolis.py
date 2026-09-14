@@ -10,7 +10,7 @@ v_angular = 7.2921159e-5  # angular velocity of the Earth in rad/s
 # v_z = v_0 * sin(phi) where phi is the latitude of the launch site. or is it? 
 
 #let's have a function just for adding in the coriolis mods
-def coriolis(v_x, v_y, v_z, phi):
+def coriolis(v_x, v_y, v_z, v_angular_x, v_angular_y):
     #calculate coriolis acceleration components
     a_coriolis_x = -2 * v_angular_y * v_z
     a_coriolis_y = 2 * v_angular_x * v_z
@@ -19,8 +19,8 @@ def coriolis(v_x, v_y, v_z, phi):
     return a_coriolis_x, a_coriolis_y, a_coriolis_z
 
 #define function for calculating instantaneous acceleration with drag
-def acceleration(v_x, v_y, v_z, C, m):
-    a_coriolis_x, a_coriolis_y, a_coriolis_z = coriolis(v_x, v_y, v_z, phi)
+def acceleration(v_x, v_y, v_z, C, m, v_angular_x, v_angular_y):
+    a_coriolis_x, a_coriolis_y, a_coriolis_z = coriolis(v_x, v_y, v_z, v_angular_x, v_angular_y)
     magnitude = math.sqrt(v_x * v_x + v_y * v_y + v_z * v_z)
     drag_factor = C * magnitude / m
     a_x = - v_x * drag_factor + a_coriolis_x
@@ -51,7 +51,7 @@ print("What is the drag coefficient?")
 C = float(input("Enter drag coefficient: "))
 
 # angular velocity components depend on initial velocity and latitude
-v_angular_x = v_angular * math.cos(math.radians(phi))  # horizontal component of angular velocity
+v_angular_x = - v_angular * math.cos(math.radians(phi))  # horizontal component of angular velocity
 v_angular_y = v_angular * math.sin(math.radians(phi))  # vertical component of angular velocity
 
 #initial value for position, time and maximum height
@@ -72,7 +72,7 @@ v_z = 0.0  # initial coriolis velocity component due to latitude
 #open output file
 output_file = open("Pmotion_Coriolis_output.txt", "w")
 while inflight:
-    a_x, a_y, a_z = acceleration(v_x, v_y, v_z, C, m)
+    a_x, a_y, a_z = acceleration(v_x, v_y, v_z, C, m, v_angular_x, v_angular_y)
     x, y, z, v_x, v_y, v_z = update(x, y, z, v_x, v_y, v_z, a_x, a_y, a_z, dt)
     t += dt
     if y >= 0:
