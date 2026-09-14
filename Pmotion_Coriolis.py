@@ -65,8 +65,8 @@ y_max = y
 inflight = True
 
 #break initial velocity into horizontal and vertical components
-v_x = v_0 * math.cos(math.radians(theta)) * math.cos(math.radians(phi))
-v_y = v_0 * math.sin(math.radians(theta)) * math.cos(math.radians(phi))
+v_x = v_0 * math.cos(math.radians(theta))
+v_y = v_0 * math.sin(math.radians(theta))
 v_z = 0.0  # initial coriolis velocity component due to latitude
 
 #open output file

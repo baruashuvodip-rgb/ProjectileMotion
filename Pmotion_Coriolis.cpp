@@ -2,8 +2,8 @@
 #include <cmath>
 #include <fstream>
 
-long double g = 9.8; //acceleration due to gravity
-long double v_angular = 7.2921159e-5;  //angular velocity of the Earth in rad/s
+float g = 9.8; //acceleration due to gravity
+float v_angular = 7.2921159e-5;  //angular velocity of the Earth in rad/s
 
 //to calculate coriolis effect, we need to have three components of velocity.
 //horizontal and vertical are given by v_x and v_y. v_z will start at 0 but will be updated with coriolis effect.
@@ -13,23 +13,23 @@ long double v_angular = 7.2921159e-5;  //angular velocity of the Earth in rad/s
 
 
 //define function for calculating instantaneous acceleration with drag + coriolis effect
-void acceleration(long double v_x, long double v_y, long double v_z, long double v_angular_x, long double v_angular_y, long double C, long double m, long double& a_x, long double& a_y, long double& a_z) {
+void acceleration(float v_x, float v_y, float v_z, float v_angular_x, float v_angular_y, float C, float m, float& a_x, float& a_y, float& a_z) {
     
     //coriolis modifications
-    long double a_coriolis_x = -2 * v_angular_y * v_z;
-    long double a_coriolis_y = 2 * v_angular_x * v_z;
-    long double a_coriolis_z = -2 * (v_x * v_angular_y - v_y * v_angular_x);
+    float a_coriolis_x = -2 * v_angular_y * v_z;
+    float a_coriolis_y = 2 * v_angular_x * v_z;
+    float a_coriolis_z = -2 * (v_x * v_angular_y - v_y * v_angular_x);
 
     //modified acceleration components
-    long double magnitude = std::sqrt(v_x * v_x + v_y * v_y + v_z * v_z);
-    long double drag_factor = C * magnitude / m; //simplifying drag calculation
+    float magnitude = std::sqrt(v_x * v_x + v_y * v_y + v_z * v_z);
+    float drag_factor = C * magnitude / m; //simplifying drag calculation
     a_x = - drag_factor * v_x + a_coriolis_x;
     a_y = -g - drag_factor * v_y + a_coriolis_y;
     a_z = - drag_factor * v_z + a_coriolis_z; 
 }
 
 //quick function to update initial values for each increment
-void update(long double& x, long double& y, long double& z, long double& v_x, long double& v_y, long double& v_z, long double a_x, long double a_y, long double a_z, long double dt) {
+void update(float& x, float& y, float& z, float& v_x, float& v_y, float& v_z, float a_x, float a_y, float a_z, float dt) {
     x += v_x * dt + 0.5 * a_x * dt * dt;
     y += v_y * dt + 0.5 * a_y * dt * dt;
     z += v_z * dt + 0.5 * a_z * dt * dt;
@@ -40,7 +40,7 @@ void update(long double& x, long double& y, long double& z, long double& v_x, lo
 
 int main() {
     //take initial input from user
-    long double v_0, theta, phi, dt, m, C;
+    float v_0, theta, phi, dt, m, C;
     std::cout << "Enter initial velocity: ";
     std::cin >> v_0;
     std::cout << "Enter launch angle (in degrees): ";
@@ -55,31 +55,31 @@ int main() {
     std::cin >> C;
 
     //initial value for position, time and maximum height
-    long double x = 0.0;
-    long double y = 0.0;
-    long double z = 0.0;
-    long double t = 0.0;
-    long double y_max = y;
+    float x = 0.0;
+    float y = 0.0;
+    float z = 0.0;
+    float t = 0.0;
+    float y_max = y;
 
     //initial value for acceleration components
-    long double a_x = 0.0;
-    long double a_y = -g;
-    long double a_z = 0.0;
+    float a_x = 0.0;
+    float a_y = -g;
+    float a_z = 0.0;
 
-    long double theta_radians = theta * M_PI / 180.0;//convert launch angle to radians for sin and cos functions
-    long double phi_radians = phi * M_PI / 180.0; //convert latitude to radians
+    float theta_radians = theta * M_PI / 180.0;//convert launch angle to radians for sin and cos functions
+    float phi_radians = phi * M_PI / 180.0; //convert latitude to radians
     
     //calculate angular velocity components - no component in z direction
-    long double v_angular_x = v_angular * std::cos(phi_radians);
-    long double v_angular_y = v_angular * std::sin(phi_radians);
+    float v_angular_x = v_angular * std::cos(phi_radians);
+    float v_angular_y = v_angular * std::sin(phi_radians);
 
     //boolean activation condition
     bool inflight = true;
 
     //break initial velocity into x, y, z components
-    long double v_x = v_0 * std::cos(theta_radians);
-    long double v_y = v_0 * std::sin(theta_radians);
-    long double v_z = 0.0; //initial velocity perpendicular to launch velocity is zero
+    float v_x = v_0 * std::cos(theta_radians);
+    float v_y = v_0 * std::sin(theta_radians);
+    float v_z = 0.0; //initial velocity perpendicular to launch velocity is zero
     
 
     //open output file
@@ -87,7 +87,7 @@ int main() {
 
     //run a loop as long as the projectile is in flight
     while (inflight) {
-        long double a_x, a_y, a_z;
+        float a_x, a_y, a_z;
 
         //find instantaneous acceleration with drag and coriolis effect
         acceleration(v_x, v_y, v_z, v_angular_x, v_angular_y, C, m, a_x, a_y, a_z);
