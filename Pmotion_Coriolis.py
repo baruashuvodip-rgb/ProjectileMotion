@@ -74,10 +74,11 @@ output_file = open("Pmotion_Coriolis_output.txt", "w")
 while inflight:
     a_x, a_y, a_z = acceleration(v_x, v_y, v_z, C, m, v_angular_x, v_angular_y)
     x, y, z, v_x, v_y, v_z = update(x, y, z, v_x, v_y, v_z, a_x, a_y, a_z, dt)
-    t += dt
+    
     if y >= 0:
         # Output x, y, z, v_x, v_y, v_z, a_x, a_y, a_z to file
         output_file.write(f"{t}, {x}, {y}, {z}, {v_x}, {v_y}, {v_z}, {a_x}, {a_y}, {a_z}\n")
+        t += dt
         if y > y_max:
             #update maximum height
             y_max = y

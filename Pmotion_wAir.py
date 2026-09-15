@@ -29,6 +29,7 @@ C = float(input("Enter drag coefficient: "))
 #initial value for position, time and maximum height
 x = 0.0
 y = 0.0
+z = 0.0
 t = 0.0
 y_max = y
 
@@ -47,7 +48,7 @@ while inflight:
     t += dt
     if y >= 0:
         # Output x, y, v_x, v_y, a_x, a_y to file
-        output_file.write(f"{t}, {x}, {y}, {v_x}, {v_y}, {a_x}, {a_y}\n")
+        output_file.write(f"{t}, {x}, {y}, {z}, {v_x}, {v_y}, {a_x}, {a_y}\n")
         if y > y_max:
             #update maximum height
             y_max = y

@@ -39,6 +39,7 @@ int main() {
     //initial value for position, time and maximum height
     float x = 0.0;
     float y = 0.0;
+    float z = 0.0;
     float t = 0.0;
     float y_max = y;
 
@@ -63,8 +64,8 @@ int main() {
 
         //run a loop as long as the projectile is in flight
         if (y >= 0) {
-            // Output x, y, v_x, v_y, a_x, a_y to file
-            output_file << t << ", " << x << ", " << y << ", " << v_x << ", " << v_y << ", " << a_x << ", " << a_y << "\n";
+            // Output x, y, z, v_x, v_y, a_x, a_y to file
+            output_file << t << ", " << x << ", " << y << ", " << z << ", " << v_x << ", " << v_y << ", " << a_x << ", " << a_y << "\n";
         
             if (y > y_max) {
             //update maximum height
